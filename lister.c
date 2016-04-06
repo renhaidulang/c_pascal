@@ -59,14 +59,30 @@ static void print_page_header (void)
 static void print_line (char *line)
 {
     const int max_lines_per_page = 50;
+    const int max_print_line_len = 40;
     static int line_cnt = 50;
+    char line_buf[max_print_line_len];
 
     if (++line_cnt > max_lines_per_page) {
         print_page_header ();
         line_cnt = 1;
     }
 
-    printf ("%s", line);
+    int len = 0;
+    char *p = line;
+    len = snprintf (line_buf, sizeof(line_buf), "%s", p);
+    printf ("%s", line_buf);
+
+    while (len >= max_print_line_len && line_buf[max_print_line_len-2] != '\n') {
+        if (++line_cnt > max_lines_per_page) {
+            print_page_header ();
+            line_cnt = 1;
+        }
+
+        p += strlen(line_buf);
+        len = snprintf (line_buf, sizeof(line_buf), "%s", p);
+        printf ("\n%s", line_buf);
+    }
 }
 
 static void get_line_rest (void)
@@ -88,7 +104,7 @@ static void get_line_rest (void)
 
 extern bool get_source_line (void)
 {
-    const int read_line_len = 5;
+    const int read_line_len = 256;
     static int cur_line_num = 0;
 
     char source_buf[read_line_len];
