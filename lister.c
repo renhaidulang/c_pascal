@@ -58,7 +58,7 @@ static void print_page_header (void)
 static void print_line (char *line)
 {
     const int max_lines_per_page = 50;
-    const int max_print_line_len = 40;
+    const int max_print_line_len = 80;
     static int line_cnt = 50;
     char line_buf[max_print_line_len];
 
