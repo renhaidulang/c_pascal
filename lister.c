@@ -52,14 +52,14 @@ static void print_page_header (void)
 {
     static int cur_page_num = 0;
 
-    putchar ('\f');
+    printf ("\f\r");
     printf ("Page %d %s %s\n\n", ++cur_page_num, source_file_name, date_str);
 }
 
 static void print_line (char *line)
 {
     const int max_lines_per_page = 50;
-    const int max_print_line_len = 40;
+    const int max_print_line_len = 80;
     static int line_cnt = 50;
     char line_buf[max_print_line_len];
 
